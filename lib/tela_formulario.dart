@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Tela de formulário para entrada de dados do usuário
 class TelaFormulario extends StatefulWidget {
   const TelaFormulario({super.key});
 
@@ -9,18 +10,23 @@ class TelaFormulario extends StatefulWidget {
 }
 
 class _TelaFormularioState extends State<TelaFormulario> {
+  // Controladores para os campos de texto
   final _nomeController = TextEditingController();
   final _idadeController = TextEditingController();
+
+  // Valor inicial para a cor favorita
   String _corFavorita = 'Azul';
 
+  // Lista de opções de cores disponíveis
   final List<String> _cores = ['Azul', 'Verde', 'Vermelho', 'Amarelo'];
 
   // Método para salvar os dados no SharedPreferences
   Future<void> _salvarDados() async {
+    // Obtém os valores dos campos de texto e realiza validações
     final nome = _nomeController.text.trim();
     final idade = int.tryParse(_idadeController.text.trim()) ?? 0;
 
-    // Verifica se os campos estão preenchidos
+    // Verifica se os campos estão preenchidos corretamente
     if (nome.isEmpty || idade <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Por favor, preencha todos os campos corretamente.')),
@@ -28,6 +34,7 @@ class _TelaFormularioState extends State<TelaFormulario> {
       return;
     }
 
+    // Salva os dados no SharedPreferences
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('nome', nome);
     await prefs.setInt('idade', idade);
